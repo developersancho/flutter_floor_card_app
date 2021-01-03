@@ -7,7 +7,7 @@ abstract class CartDao {
   Stream<List<Cart>> getAllItemInCartByUid(String uid);
 
   @Query("Select * from Cart Where uid=:uid and id=:id")
-  Stream<List<Cart>> getItemInCartByUid(String uid, String id);
+  Future<Cart> getItemInCartByUid(String uid, int id);
 
   @Query("Delete * from Cart Where uid=:uid")
   Stream<List<Cart>> clearCartByUid(String uid);

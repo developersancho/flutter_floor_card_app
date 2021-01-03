@@ -164,12 +164,9 @@ class _$CartDao extends CartDao {
   }
 
   @override
-  Stream<List<Cart>> getItemInCartByUid(String uid, String id) {
-    return _queryAdapter.queryListStream(
-        'Select * from Cart Where uid=? and id=?',
+  Future<Cart> getItemInCartByUid(String uid, int id) async {
+    return _queryAdapter.query('Select * from Cart Where uid=? and id=?',
         arguments: <dynamic>[uid, id],
-        queryableName: 'Cart',
-        isView: false,
         mapper: (Map<String, dynamic> row) => Cart(
             id: row['id'] as int,
             uid: row['uid'] as String,

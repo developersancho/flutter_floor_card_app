@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_floor_card_app/const/const.dart';
 import 'package:flutter_floor_card_app/dao/cart_dao.dart';
 import 'package:flutter_floor_card_app/db/database.dart';
+import 'package:flutter_floor_card_app/entity/cart.dart';
 import 'package:flutter_floor_card_app/model/product.dart';
 import 'package:flutter_floor_card_app/widget/product_card.dart';
 import 'package:flutter/services.dart' as rootBundle;
@@ -76,6 +79,30 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
       ),
+      floatingActionButton: StreamBuilder(
+          stream: widget.dao.getAllItemInCartByUid(UID),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var list = snapshot.data as List<Cart>;
+              return Badge(
+                position: BadgePosition(top: 0, end: 1),
+                animationDuration: Duration(milliseconds: 300),
+                animationType: BadgeAnimationType.fade,
+                showBadge: true,
+                badgeColor: Colors.red,
+                badgeContent: Text(
+                  '${list.length > 0 ? list.map<int>((e) => e.quantity).reduce((value, element) => value + element) : 0}',
+                  style: TextStyle(color: Colors.white),
+                ),
+                child: FloatingActionButton(
+                  onPressed: () {},
+                  child: Icon(Icons.shopping_cart),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 
